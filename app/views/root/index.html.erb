@@ -1,0 +1,8 @@
+<%= form_tag('/parse') do %>
+  <textarea name="code" cols="30" rows="10"><%= @code %></textarea>
+  <input type="submit" value="Parse" />
+<% end %>
+
+<% if @ast %>
+  <pre><code><%= PP.pp(@ast, StringIO.new).string %></code></pre>
+<% end %>
