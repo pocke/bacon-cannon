@@ -1,13 +1,12 @@
 class RootController < ApplicationController
+  protect_from_forgery with: :null_session
+
   def index
-    ast = params[:ast]
-    @ast = JSON.parse(ast) if ast
-    @code = params[:code]
   end
 
   def parse
     code = params.require(:code)
     ast = ParseRequester.new(code).request
-    redirect_to root_path(ast: ast.to_json, code: code)
+    render json: {ast: PP.pp(ast, StringIO.new).string}
   end
 end
