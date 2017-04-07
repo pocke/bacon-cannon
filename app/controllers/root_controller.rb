@@ -6,7 +6,7 @@ class RootController < ApplicationController
 
   def parse
     code = params.require(:code)
-    ast = ParseRequester.new(code).request
-    render json: {ast: PP.pp(ast, StringIO.new).string}
+    asts = RequestManager.request(code, RequestManager::Parsers.keys)
+    render json: asts
   end
 end

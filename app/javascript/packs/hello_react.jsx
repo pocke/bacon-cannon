@@ -13,7 +13,7 @@ class Main extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.parseCode = this.parseCode.bind(this);
 
-    this.state = {code: '', ast: []};
+    this.state = {code: '', asts: []};
   }
 
   render() {
@@ -21,7 +21,9 @@ class Main extends React.Component {
       <textarea cols="30" rows="10" onChange={this.handleChange}>{this.state.code}</textarea>
       <button onClick={this.parseCode}>Parse</button>
 
-      <pre><code>{this.state.ast}</code></pre>
+      {this.state.asts.map(ast =>
+        <pre><code>{ast}</code></pre>
+      )}
     </div>;
   }
 
@@ -38,7 +40,7 @@ class Main extends React.Component {
       },
       method: 'POST',
     }).then(resp => resp.json())
-      .then(json => this.setState({ast: json.ast}));
+      .then(json => this.setState({asts: json}));
   }
 }
 
