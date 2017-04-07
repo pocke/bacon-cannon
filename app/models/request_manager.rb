@@ -1,0 +1,3 @@
+class RequestManager
+
+end
