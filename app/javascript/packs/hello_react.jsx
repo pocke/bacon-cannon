@@ -5,6 +5,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'whatwg-fetch';
+import groupBy from 'lodash.groupby';
 
 class Main extends React.Component {
   constructor(props) {
@@ -28,10 +29,11 @@ class Main extends React.Component {
   render() {
     return <div>
       <textarea
-        cols="30" rows="10"
+        rows="10"
         onChange={this.handleChangeCode}
         value={this.state.code}
         style={{fontFamily: 'monospace'}}
+        className="form-control"
       ></textarea>
       <ParserCheckboxes
         parsers={this.state.parsers}
@@ -81,19 +83,39 @@ class Main extends React.Component {
 
 class ParserCheckboxes extends React.Component{
   render() {
-    return <div>
+    const {ripper, parser} = groupBy(this.props.parsers, p => /^([a-z]+)_/.exec(p.name)[1]);
+
+    return <div className="row">
+      <ParserCheckboxesContent
+        parsers={ripper}
+        onChecked={this.props.onChecked}
+      />
+      <ParserCheckboxesContent
+        parsers={parser}
+        onChecked={this.props.onChecked}
+      />
+    </div>
+  }
+}
+
+class ParserCheckboxesContent extends React.Component {
+  render() {
+    return <div className="col-xs-6">
       {this.props.parsers.map(parser =>
-        <label key={parser.name}>
-          {parser.name}
-          <input
-            name={parser.name}
-            type="checkbox"
-            onChange={this.props.onChecked}
-            checked={parser.enabled}
-          />
-        </label>
+        <div className="checkbox" key={parser.name}>
+          <label>
+            <input
+              name={parser.name}
+              type="checkbox"
+              onChange={this.props.onChecked}
+              checked={parser.enabled}
+            />
+            {parser.name}
+          </label>
+        </div>
       )}
     </div>
+
   }
 }
 
