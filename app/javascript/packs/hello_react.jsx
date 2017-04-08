@@ -15,7 +15,7 @@ class Main extends React.Component {
     this.parseCode = this.parseCode.bind(this);
 
     const parsers = BaconCanonConstant.Parsers.map(p =>
-      ({name: p, enabled: p == 'ripper_24'})
+      ({name: p, enabled: p.includes('24')})
     );
 
     this.state = {
@@ -27,7 +27,12 @@ class Main extends React.Component {
 
   render() {
     return <div>
-      <textarea cols="30" rows="10" onChange={this.handleChangeCode} value={this.state.code}></textarea>
+      <textarea
+        cols="30" rows="10"
+        onChange={this.handleChangeCode}
+        value={this.state.code}
+        style={{fontFamily: 'monospace'}}
+      ></textarea>
       <ParserCheckboxes
         parsers={this.state.parsers}
         onChecked={this.handleChangeParsers}
