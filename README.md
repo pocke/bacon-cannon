@@ -1,24 +1,8 @@
-# README
+# Bacon Cannon
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## What's this?
 
-Things you may want to cover:
+Bacon cannon is a online Ruby parser.
+It's support [Ripper](http://ruby-doc.org/stdlib-2.4.0/libdoc/ripper/rdoc/Ripper.html)(Ruby 1.9 ~ 2.4) and [parser gem](https://github.com/whitequark/parser)(Ruby 1.8 ~ 2.4).
 
-* Ruby version
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
