@@ -15,7 +15,7 @@ class Main extends React.Component {
     this.handleChangeParsers = this.handleChangeParsers.bind(this);
     this.parseCode = this.parseCode.bind(this);
 
-    const parsers = BaconCanonConstant.Parsers.map(p =>
+    const parsers = BaconCannonConstant.Parsers.map(p =>
       ({name: p, enabled: p.includes('24')})
     );
 
