@@ -47,6 +47,6 @@ class Main extends React.Component {
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Main />,
-    document.body.appendChild(document.createElement('div')),
+    document.querySelector('#app-main')
   )
 })
