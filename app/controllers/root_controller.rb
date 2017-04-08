@@ -6,7 +6,10 @@ class RootController < ApplicationController
 
   def parse
     code = params.require(:code)
-    asts = RequestManager.request(code, RequestManager::Parsers.keys)
+    parsers = params.require(:parsers)
+
+    asts = RequestManager.request(code, parsers)
+
     render json: asts
   end
 end

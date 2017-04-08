@@ -1,2 +1,6 @@
-<div class="container" id="app-main">
+<div class="container" id="app-main" style="margin-top: 20px">
 </div>
+
+<script>
+BaconCanonConstant.Parsers = <%= RequestManager::Parsers.keys.to_json.html_safe %>;
+</script>

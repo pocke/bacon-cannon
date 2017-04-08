@@ -10,16 +10,29 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeCode = this.handleChangeCode.bind(this);
+    this.handleChangeParsers = this.handleChangeParsers.bind(this);
     this.parseCode = this.parseCode.bind(this);
 
-    this.state = {code: '', asts: []};
+    const parsers = BaconCanonConstant.Parsers.map(p =>
+      ({name: p, enabled: p == 'ripper_24'})
+    );
+
+    this.state = {
+      code: '',
+      asts: [],
+      parsers: parsers,
+    };
   }
 
   render() {
     return <div>
-      <textarea cols="30" rows="10" onChange={this.handleChange}>{this.state.code}</textarea>
-      <button onClick={this.parseCode}>Parse</button>
+      <textarea cols="30" rows="10" onChange={this.handleChangeCode} value={this.state.code}></textarea>
+      <ParserCheckboxes
+        parsers={this.state.parsers}
+        onChecked={this.handleChangeParsers}
+      />
+      <button className="btn btn-primary" onClick={this.parseCode}>Parse</button>
 
       {this.state.asts.map(ast =>
         <pre><code>{ast}</code></pre>
@@ -27,20 +40,55 @@ class Main extends React.Component {
     </div>;
   }
 
-  handleChange(e) {
+  handleChangeCode(e) {
     this.setState({code: e.target.value});
+  }
+
+  handleChangeParsers(e) {
+    const enabled = e.target.checked;
+    const name = e.target.name;
+    const parsers = this.state.parsers.map(p =>
+      p.name == name ? {name: p.name, enabled} : p
+    );
+
+    this.setState({parsers})
   }
 
   parseCode() {
     const code = this.state.code;
+    const parsers = this.state.parsers
+      .filter(p => p.enabled)
+      .map(p => p.name);
+
     fetch('/parse', {
-      body: JSON.stringify({code: code}),
+      body: JSON.stringify({
+        code,
+        parsers,
+      }),
       headers: {
         'Content-Type': 'application/json',
       },
       method: 'POST',
     }).then(resp => resp.json())
       .then(json => this.setState({asts: json}));
+  }
+}
+
+class ParserCheckboxes extends React.Component{
+  render() {
+    return <div>
+      {this.props.parsers.map(parser =>
+        <label key={parser.name}>
+          {parser.name}
+          <input
+            name={parser.name}
+            type="checkbox"
+            onChange={this.props.onChecked}
+            checked={parser.enabled}
+          />
+        </label>
+      )}
+    </div>
   }
 }
 
