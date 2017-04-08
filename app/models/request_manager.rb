@@ -12,12 +12,19 @@ module RequestManager
   # @param targets [Array<String>] parser names
   # @return [Array<String>]
   def self.request(code, targets)
+    ParseRequester # XXX: Hack for autoload
     targets &= Parsers.keys
     targets
       .map{|key| Parsers[key]}
       .map do |url|
-      resp = ParseRequester.request(code, url)
-      PP.pp(resp, StringIO.new).string
-    end
+      Expeditor::Command.new do
+        resp = ParseRequester.request(code, url)
+        PP.pp(resp, StringIO.new).string
+      end.set_fallback do |e|
+        Rails.logger.warn e
+        nil
+      end.start
+    end.map(&:get)
   end
+
 end
