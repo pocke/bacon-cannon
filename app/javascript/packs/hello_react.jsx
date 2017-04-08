@@ -40,6 +40,7 @@ class Main extends React.Component {
         onChecked={this.handleChangeParsers}
       />
       <button className="btn btn-primary" onClick={this.parseCode}>Parse</button>
+      <hr />
 
       {this.state.asts.map(ast =>
         <pre><code>{ast}</code></pre>
