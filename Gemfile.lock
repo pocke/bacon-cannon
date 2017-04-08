@@ -39,6 +39,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (8.0.0)
+    ast (2.3.0)
     bindex (0.5.0)
     builder (3.2.3)
     byebug (9.0.6)
@@ -76,6 +77,8 @@ GEM
     nio4r (2.0.0)
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
+    parser (2.4.0.0)
+      ast (~> 2.2)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -162,6 +165,7 @@ DEPENDENCIES
   expeditor
   faraday
   listen (~> 3.0.5)
+  parser
   pry-rails
   puma (~> 3.0)
   rails (= 5.1.0.rc1)
