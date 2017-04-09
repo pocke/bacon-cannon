@@ -43,7 +43,9 @@ class Main extends React.Component {
       <hr />
 
       {this.state.asts.map(ast =>
-        <pre><code>{ast}</code></pre>
+        ast.error_class ?
+          <ASTError key={ast.parser_name} error={ast}></ASTError> :
+          <ASTContent key={ast.parser_name} ast={ast}></ASTContent>
       )}
     </div>;
   }
@@ -117,6 +119,34 @@ class ParserCheckboxesContent extends React.Component {
       )}
     </div>
 
+  }
+}
+
+class ASTContent extends React.Component {
+  render() {
+    const ast = this.props.ast;
+    return <div>
+      <h4>{ast.parser_name}</h4>
+      <ul>
+        {Object.keys(ast.meta).map(key =>
+          <li><code>{key}</code>: <code>{ast.meta[key]}</code></li>
+        )}
+      </ul>
+      <pre><code>{ast.body_screen}</code></pre>
+    </div>
+  }
+}
+
+class ASTError extends React.Component {
+  render() {
+    const error = this.props.error;
+    return <div>
+      <h4>{error.parser_name}</h4>
+      <div className="alert alert-danger" role="alert">
+        {error.error_class}<br />
+        {error.error_message}
+      </div>
+    </div>
   }
 }
 

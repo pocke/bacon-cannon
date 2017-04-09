@@ -10,6 +10,6 @@ class RootController < ApplicationController
 
     asts = RequestManager.request(code, parsers)
 
-    render json: asts
+    render json: asts.map(&:to_screen_data)
   end
 end
