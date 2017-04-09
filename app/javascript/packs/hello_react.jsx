@@ -25,6 +25,7 @@ class Main extends React.Component {
       parsers: parsers,
       error: {},
       isError: false,
+      isLoading: false,
     };
   }
 
@@ -45,6 +46,7 @@ class Main extends React.Component {
       <hr />
 
       {this.state.isError ? <ErrorAlert error={this.state.error}></ErrorAlert> : ''}
+      <Loading isLoading={this.state.isLoading} />
 
       {this.state.asts.map(ast =>
         ast.error_class ?
@@ -69,7 +71,7 @@ class Main extends React.Component {
   }
 
   parseCode() {
-    this.setState({asts: [], isError: false});
+    this.setState({asts: [], isError: false, isLoading: true});
 
     const code = this.state.code;
     const parsers = this.state.parsers
@@ -88,9 +90,9 @@ class Main extends React.Component {
     }).then(resp => {
       resp.json().then(json => {
         if (resp.status / 100 === 2) {
-          this.setState({asts: json});
+          this.setState({asts: json, isLoading: false});
         } else {
-          this.setState({error: json, isError: true});
+          this.setState({error: json, isError: true, isLoading: false});
         }
       })
     });
@@ -170,6 +172,14 @@ class ErrorAlert extends React.Component {
       {error.error_class}<br />
       {error.error_message}
     </div>
+  }
+}
+
+class Loading extends React.Component {
+  render() {
+    return this.props.isLoading ?
+      <img src="/loading.svg" alt="Loading..." /> :
+      null;
   }
 }
 
