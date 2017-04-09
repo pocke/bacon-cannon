@@ -23,6 +23,8 @@ class Main extends React.Component {
       code: '',
       asts: [],
       parsers: parsers,
+      error: {},
+      isError: false,
     };
   }
 
@@ -41,6 +43,8 @@ class Main extends React.Component {
       />
       <button className="btn btn-primary" onClick={this.parseCode}>Parse</button>
       <hr />
+
+      {this.state.isError ? <ErrorAlert error={this.state.error}></ErrorAlert> : ''}
 
       {this.state.asts.map(ast =>
         ast.error_class ?
@@ -65,6 +69,8 @@ class Main extends React.Component {
   }
 
   parseCode() {
+    this.setState({asts: [], isError: false});
+
     const code = this.state.code;
     const parsers = this.state.parsers
       .filter(p => p.enabled)
@@ -79,8 +85,15 @@ class Main extends React.Component {
         'Content-Type': 'application/json',
       },
       method: 'POST',
-    }).then(resp => resp.json())
-      .then(json => this.setState({asts: json}));
+    }).then(resp => {
+      resp.json().then(json => {
+        if (resp.status / 100 === 2) {
+          this.setState({asts: json});
+        } else {
+          this.setState({error: json, isError: true});
+        }
+      })
+    });
   }
 }
 
@@ -146,6 +159,16 @@ class ASTError extends React.Component {
         {error.error_class}<br />
         {error.error_message}
       </div>
+    </div>
+  }
+}
+
+class ErrorAlert extends React.Component {
+  render() {
+    const error = this.props.error;
+    return <div className="alert alert-danger" role="alert">
+      {error.error_class}<br />
+      {error.error_message}
     </div>
   }
 }
