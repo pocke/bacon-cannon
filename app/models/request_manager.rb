@@ -1,4 +1,15 @@
 module RequestManager
+  ASTResponse = Struct.new(:body, :meta, :parser_name) do
+    def to_screen_data
+      {
+        body: body,
+        body_screen: PP.pp(body, ''.dup),
+        meta: meta,
+        parser_name: parser_name,
+      }
+    end
+  end
+
   Parsers = %w[
     ripper_24
     ripper_23
@@ -25,7 +36,6 @@ module RequestManager
       .map{|name| command(code, name)}
       .map(&:start)
       .map(&:get)
-      .map{|ast| PP.pp(ast, StringIO.new).string }
   end
 
   def self.command(code, parser_name)

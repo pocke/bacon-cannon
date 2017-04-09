@@ -19,6 +19,11 @@ module ParseRequester
       req.body = code
     end
 
-    JSON.parse(resp.body)['body']
+    parsed = JSON.parse(resp.body)
+    RequestManager::ASTResponse.new(
+      parsed['body'],
+      parsed['meta'],
+      parser_name,
+    )
   end
 end
