@@ -9,6 +9,7 @@ module RequestManager
       }
     end
   end
+
   ASTResponseError = Struct.new(:error_class, :error_message, :parser_name) do
     def to_screen_data
       {
@@ -50,7 +51,7 @@ module RequestManager
   def self.command(code, parser_name)
     klass = parser_name.start_with?('ripper_') ? ParseRequester : ParserWithParser
 
-    Expeditor::Command.new do
+    Expeditor::Command.new(timeout: 10) do
       klass.request(code, parser_name)
     end.set_fallback do |e|
       Rails.logger.warn e
