@@ -43,7 +43,9 @@ class Main extends React.Component {
       <hr />
 
       {this.state.asts.map(ast =>
-        <ASTContent key={ast.parser_name} ast={ast}></ASTContent>
+        ast.error_class ?
+          <ASTError key={ast.parser_name} error={ast}></ASTError> :
+          <ASTContent key={ast.parser_name} ast={ast}></ASTContent>
       )}
     </div>;
   }
@@ -131,6 +133,19 @@ class ASTContent extends React.Component {
         )}
       </ul>
       <pre><code>{ast.body_screen}</code></pre>
+    </div>
+  }
+}
+
+class ASTError extends React.Component {
+  render() {
+    const error = this.props.error;
+    return <div>
+      <h4>{error.parser_name}</h4>
+      <div className="alert alert-danger" role="alert">
+        {error.error_class}<br />
+        {error.error_message}
+      </div>
     </div>
   }
 }
