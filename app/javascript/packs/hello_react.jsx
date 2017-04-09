@@ -45,7 +45,7 @@ class Main extends React.Component {
       <button className="btn btn-primary" onClick={this.parseCode}>Parse</button>
       <hr />
 
-      {this.state.isError ? <ErrorAlert error={this.state.error}></ErrorAlert> : ''}
+      <ErrorAlert isError={this.state.isError} error={this.state.error} />
       <Loading isLoading={this.state.isLoading} />
 
       {this.state.asts.map(ast =>
@@ -144,7 +144,7 @@ class ASTContent extends React.Component {
       <h4>{ast.parser_name}</h4>
       <ul>
         {Object.keys(ast.meta).map(key =>
-          <li><code>{key}</code>: <code>{ast.meta[key]}</code></li>
+          <li key={key}><code>{key}</code>: <code>{ast.meta[key]}</code></li>
         )}
       </ul>
       <pre><code>{ast.body_screen}</code></pre>
@@ -168,10 +168,12 @@ class ASTError extends React.Component {
 class ErrorAlert extends React.Component {
   render() {
     const error = this.props.error;
-    return <div className="alert alert-danger" role="alert">
-      {error.error_class}<br />
-      {error.error_message}
-    </div>
+    return this.props.isError ?
+      <div className="alert alert-danger" role="alert">
+        {error.error_class}<br />
+        {error.error_message}
+      </div> :
+      null;
   }
 }
 
