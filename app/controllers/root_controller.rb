@@ -5,7 +5,7 @@ class RootController < ApplicationController
   end
 
   def parse
-    code = params.require(:code)
+    code = params[:code] || ''
     parsers = params.require(:parsers)
 
     asts = RequestManager.request(code, parsers)
