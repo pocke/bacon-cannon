@@ -37,6 +37,7 @@ class Main extends React.Component {
         value={this.state.code}
         style={{fontFamily: 'monospace'}}
         className="form-control"
+        placeholder="puts 'Hello, world'"
       ></textarea>
       <ParserCheckboxes
         parsers={this.state.parsers}
