@@ -44,6 +44,7 @@ class Main extends React.Component {
         style={{fontFamily: 'monospace'}}
         className="form-control"
         placeholder="puts 'Hello, world'"
+        name="ruby_code"
       ></textarea>
       <ParserCheckboxes
         parsers={this.state.parsers}

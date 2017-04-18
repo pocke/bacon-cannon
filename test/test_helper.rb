@@ -9,4 +9,5 @@ end
 Capybara::Webkit.configure do |config|
   # Raise JavaScript errors as exceptions
   config.raise_javascript_errors = true
+  config.allow_url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
 end
