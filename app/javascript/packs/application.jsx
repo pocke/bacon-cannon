@@ -10,6 +10,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'whatwg-fetch';
+import 'babel-polyfill';
 import groupBy from 'lodash.groupby';
 
 class Main extends React.Component {
@@ -43,6 +44,7 @@ class Main extends React.Component {
         style={{fontFamily: 'monospace'}}
         className="form-control"
         placeholder="puts 'Hello, world'"
+        name="ruby_code"
       ></textarea>
       <ParserCheckboxes
         parsers={this.state.parsers}

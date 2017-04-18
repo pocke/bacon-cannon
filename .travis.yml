@@ -1,0 +1,20 @@
+dist: trusty
+rvm: 2.4.1
+sudo: false
+cache:
+  bundler: true
+  yarn: true
+  directories:
+    - node_modules/
+addons:
+  apt:
+    sources:
+      - sourceline: 'deb https://dl.yarnpkg.com/debian/ stable main'
+        key_url: 'https://dl.yarnpkg.com/debian/pubkey.gpg'
+    packages:
+      - yarn
+
+before_script:
+  - 'bin/yarn install'
+  - 'bin/rails webpacker:compile'
+script: 'xvfb-run -a bundle exec rails test test/'
