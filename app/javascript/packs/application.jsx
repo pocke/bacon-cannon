@@ -10,6 +10,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'whatwg-fetch';
+import 'babel-polyfill';
 import groupBy from 'lodash.groupby';
 
 class Main extends React.Component {
