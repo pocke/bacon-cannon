@@ -1,3 +1,4 @@
+language: ruby
 dist: trusty
 rvm: 2.4.1
 sudo: false
@@ -15,6 +16,7 @@ addons:
       - yarn
 
 before_script:
+  - 'nvm install 7'
   - 'bin/yarn install'
   - 'bin/rails webpacker:compile'
 script: 'xvfb-run -a bundle exec rails test test/'
