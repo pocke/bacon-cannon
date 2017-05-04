@@ -42,6 +42,8 @@ group :development do
 
   gem 'rubocop', require: false
   gem 'meowcop', require: false
+
+  gem 'annotate'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
