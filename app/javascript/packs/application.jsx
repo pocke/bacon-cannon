@@ -20,20 +20,25 @@ class Main extends React.Component {
     this.handleChangeCode = this.handleChangeCode.bind(this);
     this.handleChangeParsers = this.handleChangeParsers.bind(this);
     this.parseCode = this.parseCode.bind(this);
-    this.getPermlink = this.getPermlink.bind(this);
+    this.getParmlink = this.getParmlink.bind(this);
 
     const parsers = BaconCannonConstant.Parsers.map(p =>
       ({name: p, enabled: p.includes('24')})
     );
+    const code = BaconCannonConstant.Code || '';
+    const asts = BaconCannonConstant.ASTs || [];
+    const parmlink_uuid = location.pathname.startsWith('/parmlinks/') ?
+      location.pathname.split('/').pop()
+      : null;
 
     this.state = {
-      code: '',
-      asts: [],
-      parsers: parsers,
+      code,
+      asts,
+      parsers,
+      parmlink_uuid,
       error: {},
       isError: false,
       isLoading: false,
-      permlink_uuid: null,
     };
   }
 
@@ -53,7 +58,7 @@ class Main extends React.Component {
         onChecked={this.handleChangeParsers}
       />
       <button className="btn btn-primary" onClick={this.parseCode}>Parse</button>&nbsp;
-      <button className="btn btn-default" onClick={this.getPermlink} disabled={this.state.asts.length === 0}>Permlink</button>
+      <button className="btn btn-default" onClick={this.getParmlink} disabled={this.state.asts.length === 0}>Permlink</button>
       <hr />
 
       <ErrorAlert isError={this.state.isError} error={this.state.error} />
@@ -109,7 +114,7 @@ class Main extends React.Component {
     });
   }
 
-  getPermlink() {
+  getParmlink() {
     const code = this.state.code;
     const asts = this.state.asts;
     fetch('/permlinks', {
@@ -126,7 +131,7 @@ class Main extends React.Component {
         if (resp.status / 100 === 2) {
           const uuid = json['uuid'];
           window.history.pushState(null, '', `/permlinks/${uuid}`);
-          this.setState({permlink_uuid: uuid});
+          this.setState({parmlink_uuid: uuid});
         } else {
           this.setState({error: json, isError: true, isLoading: false});
         }
