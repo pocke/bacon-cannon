@@ -19,4 +19,5 @@ before_script:
   - 'nvm install 7'
   - 'bin/yarn install'
   - 'bin/rails webpacker:compile'
+  - 'bin/rake db:migrate:reset'
 script: 'xvfb-run -a bundle exec rails test test/'
