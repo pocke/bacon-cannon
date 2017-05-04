@@ -20,6 +20,7 @@ class Main extends React.Component {
     this.handleChangeCode = this.handleChangeCode.bind(this);
     this.handleChangeParsers = this.handleChangeParsers.bind(this);
     this.parseCode = this.parseCode.bind(this);
+    this.getPermlink = this.getPermlink.bind(this);
 
     const parsers = BaconCannonConstant.Parsers.map(p =>
       ({name: p, enabled: p.includes('24')})
@@ -50,7 +51,8 @@ class Main extends React.Component {
         parsers={this.state.parsers}
         onChecked={this.handleChangeParsers}
       />
-      <button className="btn btn-primary" onClick={this.parseCode}>Parse</button>
+      <button className="btn btn-primary" onClick={this.parseCode}>Parse</button>&nbsp;
+      <button className="btn btn-default" onClick={this.getPermlink}>Permlink</button>
       <hr />
 
       <ErrorAlert isError={this.state.isError} error={this.state.error} />
@@ -58,8 +60,8 @@ class Main extends React.Component {
 
       {this.state.asts.map(ast =>
         ast.error_class ?
-          <ASTError key={ast.parser_name} error={ast}></ASTError> :
-          <ASTContent key={ast.parser_name} ast={ast}></ASTContent>
+          <ASTError key={ast.parser} error={ast}></ASTError> :
+          <ASTContent key={ast.parser} ast={ast}></ASTContent>
       )}
     </div>;
   }
@@ -103,6 +105,21 @@ class Main extends React.Component {
           this.setState({error: json, isError: true, isLoading: false});
         }
       })
+    });
+  }
+
+  getPermlink() {
+    const code = this.state.code;
+    const asts = this.state.asts;
+    fetch('/permlinks', {
+      body: JSON.stringify({
+        code,
+        asts,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
     });
   }
 }
@@ -149,7 +166,7 @@ class ASTContent extends React.Component {
   render() {
     const ast = this.props.ast;
     return <div>
-      <h4>{ast.parser_name}</h4>
+      <h4>{ast.parser}</h4>
       <ul>
         {Object.keys(ast.meta).map(key =>
           <li key={key}><code>{key}</code>: <code>{ast.meta[key]}</code></li>
@@ -164,7 +181,7 @@ class ASTError extends React.Component {
   render() {
     const error = this.props.error;
     return <div>
-      <h4>{error.parser_name}</h4>
+      <h4>{error.parser}</h4>
       <div className="alert alert-danger" role="alert">
         {error.error_class}<br />
         {error.error_message}
