@@ -40,6 +40,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
+    annotate (2.6.5)
+      activerecord (>= 2.3.0)
+      rake (>= 0.8.7)
     arel (8.0.0)
     ast (2.3.0)
     bindex (0.5.0)
@@ -94,6 +97,7 @@ GEM
       mini_portile2 (~> 2.1.0)
     parser (2.4.0.0)
       ast (~> 2.2)
+    pg (0.20.0)
     powerpack (0.1.1)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -190,6 +194,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate
   byebug
   capybara
   capybara-webkit
@@ -198,6 +203,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   meowcop
   parser
+  pg
   pry-rails
   puma (~> 3.0)
   rails (~> 5.1.0)
@@ -210,9 +216,8 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   webpacker
 
-
 RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.14.6
+   1.15.0.pre.3

@@ -20,18 +20,30 @@ class Main extends React.Component {
     this.handleChangeCode = this.handleChangeCode.bind(this);
     this.handleChangeParsers = this.handleChangeParsers.bind(this);
     this.parseCode = this.parseCode.bind(this);
+    this.getParmlink = this.getParmlink.bind(this);
 
     const parsers = BaconCannonConstant.Parsers.map(p =>
       ({name: p, enabled: p.includes('24')})
     );
+    const code = BaconCannonConstant.Code || '';
+    const asts = BaconCannonConstant.ASTs || [];
+    const parmlink_uuid = location.pathname.startsWith('/parmlinks/') ?
+      location.pathname.split('/').pop()
+      : null;
 
     this.state = {
-      code: '',
-      asts: [],
-      parsers: parsers,
+      code,
+      asts,
+      parsers,
+      parmlink_uuid,
       error: {},
       isError: false,
       isLoading: false,
+    };
+
+    window.history.replaceState(this.state, '', location.href);
+    window.onpopstate = (ev) => {
+      this.setState(ev.state);
     };
   }
 
@@ -50,7 +62,8 @@ class Main extends React.Component {
         parsers={this.state.parsers}
         onChecked={this.handleChangeParsers}
       />
-      <button className="btn btn-primary" onClick={this.parseCode}>Parse</button>
+      <button className="btn btn-primary" onClick={this.parseCode}>Parse</button>&nbsp;
+      <ParmlinkArea getParmlink={this.getParmlink} isParsed={this.state.asts.length !== 0} />
       <hr />
 
       <ErrorAlert isError={this.state.isError} error={this.state.error} />
@@ -58,8 +71,8 @@ class Main extends React.Component {
 
       {this.state.asts.map(ast =>
         ast.error_class ?
-          <ASTError key={ast.parser_name} error={ast}></ASTError> :
-          <ASTContent key={ast.parser_name} ast={ast}></ASTContent>
+          <ASTError key={ast.parser} error={ast}></ASTError> :
+          <ASTContent key={ast.parser} ast={ast}></ASTContent>
       )}
     </div>;
   }
@@ -99,6 +112,31 @@ class Main extends React.Component {
       resp.json().then(json => {
         if (resp.status / 100 === 2) {
           this.setState({asts: json, isLoading: false});
+        } else {
+          this.setState({error: json, isError: true, isLoading: false});
+        }
+      })
+    });
+  }
+
+  getParmlink() {
+    const code = this.state.code;
+    const asts = this.state.asts;
+    return fetch('/parmlinks', {
+      body: JSON.stringify({
+        code,
+        asts,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    }).then(resp => {
+      return resp.json().then(json => {
+        if (resp.status / 100 === 2) {
+          const parmlink_uuid = json['uuid'];
+          const state = Object.assign({}, this.state, {parmlink_uuid})
+          window.history.pushState(state, '', `/parmlinks/${parmlink_uuid}`);
         } else {
           this.setState({error: json, isError: true, isLoading: false});
         }
@@ -149,13 +187,13 @@ class ASTContent extends React.Component {
   render() {
     const ast = this.props.ast;
     return <div>
-      <h4>{ast.parser_name}</h4>
+      <h4>{ast.parser}</h4>
       <ul>
         {Object.keys(ast.meta).map(key =>
           <li key={key}><code>{key}</code>: <code>{ast.meta[key]}</code></li>
         )}
       </ul>
-      <pre><code>{ast.body_screen}</code></pre>
+      <pre><code>{ast.ast}</code></pre>
     </div>
   }
 }
@@ -164,7 +202,7 @@ class ASTError extends React.Component {
   render() {
     const error = this.props.error;
     return <div>
-      <h4>{error.parser_name}</h4>
+      <h4>{error.parser}</h4>
       <div className="alert alert-danger" role="alert">
         {error.error_class}<br />
         {error.error_message}
@@ -190,6 +228,33 @@ class Loading extends React.Component {
     return this.props.isLoading ?
       <img src="/loading.svg" alt="Loading..." /> :
       null;
+  }
+}
+
+class ParmlinkArea extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      clicked: false
+    };
+    this.onClick = this.onClick.bind(this);
+  }
+
+  render() {
+    const href = `https://twitter.com/intent/tweet?hashtags=bacon_cannon&original_referer=&text=Bacon%20Cannon%20%3D~%20An%20online%20Ruby%20parser&tw_p=tweetbutton&url=${location.href}`;
+
+    return this.state.clicked ?
+      <a
+        href={href}
+        className="">Tweet</a> :
+      <button className="btn btn-default" onClick={this.onClick} disabled={!this.props.isParsed}>Parmlink</button>;
+  }
+
+  onClick() {
+    this.props.getParmlink().then(_ =>
+      this.setState({clicked: true})
+    );
   }
 }
 

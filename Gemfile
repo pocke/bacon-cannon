@@ -9,6 +9,7 @@ end
 
 
 gem 'rails', '~> 5.1.0'
+gem 'pg'
 gem 'webpacker'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
@@ -41,6 +42,8 @@ group :development do
 
   gem 'rubocop', require: false
   gem 'meowcop', require: false
+
+  gem 'annotate'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

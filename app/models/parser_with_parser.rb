@@ -9,10 +9,10 @@ module ParserWithParser
     ast = klass.parse(code)
 
     meta = {'Parser::VERSION' => Parser::VERSION}
-    RequestManager::ASTResponse.new(
-      ast,
-      meta,
-      parser_name,
+    ParseResult.new(
+      ast: PP.pp(ast, ''.dup),
+      meta: meta,
+      parser: parser_name,
     )
   end
 end
