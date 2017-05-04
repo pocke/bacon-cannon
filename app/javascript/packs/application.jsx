@@ -247,7 +247,7 @@ class ParmlinkArea extends React.Component {
     return this.state.clicked ?
       <a
         href={href}
-        className="">Tweet</a> :
+        target="_blank">Tweet</a> :
       <button className="btn btn-default" onClick={this.onClick} disabled={!this.props.isParsed}>Parmlink</button>;
   }
 
