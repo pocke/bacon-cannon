@@ -155,7 +155,7 @@ class ASTContent extends React.Component {
           <li key={key}><code>{key}</code>: <code>{ast.meta[key]}</code></li>
         )}
       </ul>
-      <pre><code>{ast.body_screen}</code></pre>
+      <pre><code>{ast.ast}</code></pre>
     </div>
   }
 }

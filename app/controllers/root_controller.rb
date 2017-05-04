@@ -10,7 +10,7 @@ class RootController < ApplicationController
 
     asts = RequestManager.request(code, parsers)
 
-    render json: asts.map(&:to_screen_data)
+    render json: asts
   rescue => e
     Rails.logger.error e
     render json: {error_class: e.class.to_s, error_message: e.message}, status: 500

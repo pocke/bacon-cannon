@@ -1,25 +1,4 @@
 module RequestManager
-  ASTResponse = Struct.new(:body, :meta, :parser_name) do
-    def to_screen_data
-      {
-        body: body,
-        body_screen: PP.pp(body, ''.dup),
-        meta: meta,
-        parser_name: parser_name,
-      }
-    end
-  end
-
-  ASTResponseError = Struct.new(:error_class, :error_message, :parser_name) do
-    def to_screen_data
-      {
-        error_class: error_class,
-        error_message: error_message,
-        parser_name: parser_name,
-      }
-    end
-  end
-
   Parsers = %w[
     ripper_24
     ripper_23
@@ -51,11 +30,15 @@ module RequestManager
   def self.command(code, parser_name)
     klass = parser_name.start_with?('ripper_') ? ParseRequester : ParserWithParser
 
+    # magic :(
+    ::ParseResult
+    ::ParseResultError
+
     Expeditor::Command.new(timeout: 10) do
       klass.request(code, parser_name)
     end.set_fallback do |e|
       Rails.logger.warn e
-      ASTResponseError.new(e.class.to_s, e.message, parser_name)
+      ParseResultError.new(error_class: e.class.to_s, error_message: e.message, parser: parser_name)
     end
   end
 end

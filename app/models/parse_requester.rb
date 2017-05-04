@@ -20,10 +20,10 @@ module ParseRequester
     end
 
     parsed = JSON.parse(resp.body)
-    RequestManager::ASTResponse.new(
-      parsed['body'],
-      parsed['meta'],
-      parser_name,
+    ParseResult.new(
+      ast: PP.pp(parsed['body'], ''.dup),
+      meta: parsed['meta'],
+      parser: parser_name,
     )
   end
 end
