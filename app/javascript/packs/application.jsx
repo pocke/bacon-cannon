@@ -122,7 +122,7 @@ class Main extends React.Component {
   getParmlink() {
     const code = this.state.code;
     const asts = this.state.asts;
-    return fetch('/permlinks', {
+    return fetch('/parmlinks', {
       body: JSON.stringify({
         code,
         asts,
@@ -136,7 +136,7 @@ class Main extends React.Component {
         if (resp.status / 100 === 2) {
           const parmlink_uuid = json['uuid'];
           const state = Object.assign({}, this.state, {parmlink_uuid})
-          window.history.pushState(state, '', `/permlinks/${parmlink_uuid}`);
+          window.history.pushState(state, '', `/parmlinks/${parmlink_uuid}`);
         } else {
           this.setState({error: json, isError: true, isLoading: false});
         }

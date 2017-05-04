@@ -3,8 +3,8 @@
 
 <script>
 BaconCannonConstant.Parsers = <%= RequestManager::Parsers.to_json.html_safe %>;
-<% if @permlink %>
-  BaconCannonConstant.Code = <%= @permlink.code.to_json.html_safe %>
-  BaconCannonConstant.ASTs= <%= [@permlink.parse_results, @permlink.parse_result_errors].flatten.to_json.html_safe %>
+<% if @parmlink %>
+  BaconCannonConstant.Code = <%= @parmlink.code.to_json.html_safe %>
+  BaconCannonConstant.ASTs= <%= [@parmlink.parse_results, @parmlink.parse_result_errors].flatten.to_json.html_safe %>
 <% end %>
 </script>

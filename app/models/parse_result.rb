@@ -1,3 +1,3 @@
 class ParseResult < ApplicationRecord
-  belongs_to :permlink
+  belongs_to :parmlink
 end

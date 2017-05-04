@@ -1,8 +1,8 @@
-class PermlinksController < ApplicationController
+class ParmlinksController < ApplicationController
   protect_from_forgery with: :null_session
 
   def show
-    @permlink = Permlink.find_by!(uuid: params.require(:id))
+    @parmlink = Parmlink.find_by!(uuid: params.require(:id))
     render template: 'root/index'
   end
 
@@ -11,14 +11,14 @@ class PermlinksController < ApplicationController
     asts = params.require(:asts)
 
     link = ActiveRecord::Base.transaction do
-      Permlink.create!(
+      Parmlink.create!(
         uuid: SecureRandom.uuid,
         code: code,
       ).tap do |link|
         asts.each do |ast|
           if ast['error_class']
             ParseResultError.create!(
-              permlink: link,
+              parmlink: link,
               error_class: ast['error_class'],
               error_message: ast['error_message'],
               parser: ast['parser'],
@@ -26,7 +26,7 @@ class PermlinksController < ApplicationController
           else
             meta = ast['meta'].permit('RUBY_VERSION', 'Parser::VERSION')
             ParseResult.create!(
-              permlink: link,
+              parmlink: link,
               ast: ast['ast'],
               parser: ast['parser'],
               meta: meta,
