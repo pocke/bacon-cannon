@@ -33,6 +33,7 @@ class Main extends React.Component {
       error: {},
       isError: false,
       isLoading: false,
+      permlink_uuid: null,
     };
   }
 
@@ -52,7 +53,7 @@ class Main extends React.Component {
         onChecked={this.handleChangeParsers}
       />
       <button className="btn btn-primary" onClick={this.parseCode}>Parse</button>&nbsp;
-      <button className="btn btn-default" onClick={this.getPermlink}>Permlink</button>
+      <button className="btn btn-default" onClick={this.getPermlink} disabled={this.state.asts.length === 0}>Permlink</button>
       <hr />
 
       <ErrorAlert isError={this.state.isError} error={this.state.error} />
@@ -120,6 +121,16 @@ class Main extends React.Component {
         'Content-Type': 'application/json',
       },
       method: 'POST',
+    }).then(resp => {
+      resp.json().then(json => {
+        if (resp.status / 100 === 2) {
+          const uuid = json['uuid'];
+          window.history.pushState(null, '', `/permlinks/${uuid}`);
+          this.setState({permlink_uuid: uuid});
+        } else {
+          this.setState({error: json, isError: true, isLoading: false});
+        }
+      })
     });
   }
 }

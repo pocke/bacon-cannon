@@ -10,32 +10,35 @@ class PermlinksController < ApplicationController
     code = params.require(:code)
     asts = params.require(:asts)
 
-    ActiveRecord::Base.transaction do
-      link = Permlink.create!(
+    link = ActiveRecord::Base.transaction do
+      Permlink.create!(
         uuid: SecureRandom.uuid,
         code: code,
-      )
-
-      asts.each do |ast|
-        if ast['error_class']
-          ParseResultError.create!(
-            permlink: link,
-            error_class: ast['error_class'],
-            error_message: ast['error_message'],
-            parser: ast['parser'],
-          )
-        else
-          meta = ast['meta'].permit('RUBY_VERSION', 'Parser::VERSION')
-          ParseResult.create!(
-            permlink: link,
-            ast: ast['ast'],
-            parser: ast['parser'],
-            meta: meta,
-          )
+      ).tap do |link|
+        asts.each do |ast|
+          if ast['error_class']
+            ParseResultError.create!(
+              permlink: link,
+              error_class: ast['error_class'],
+              error_message: ast['error_message'],
+              parser: ast['parser'],
+            )
+          else
+            meta = ast['meta'].permit('RUBY_VERSION', 'Parser::VERSION')
+            ParseResult.create!(
+              permlink: link,
+              ast: ast['ast'],
+              parser: ast['parser'],
+              meta: meta,
+            )
+          end
         end
       end
     end
 
-    render :nothing
+    render json: link.slice(:uuid)
+  rescue => e
+    Rails.logger.error e
+    render json: {error_class: e.class.to_s, error_message: e.message}, status: 500
   end
 end
