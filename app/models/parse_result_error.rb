@@ -1,0 +1,2 @@
+class ParseResultError < ApplicationRecord
+end

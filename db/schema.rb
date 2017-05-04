@@ -10,9 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20170504063331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "parse_result_errors", force: :cascade do |t|
+    t.bigint "permlink_id", null: false
+    t.string "parser", null: false
+    t.string "error_class", null: false
+    t.string "error_message", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["permlink_id"], name: "index_parse_result_errors_on_permlink_id"
+  end
+
+  create_table "parse_results", force: :cascade do |t|
+    t.bigint "permlink_id", null: false
+    t.text "ast", null: false
+    t.string "parser", null: false
+    t.json "meta", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["permlink_id"], name: "index_parse_results_on_permlink_id"
+  end
+
+  create_table "permlinks", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.text "code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "parse_result_errors", "permlinks", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "parse_results", "permlinks", on_update: :cascade, on_delete: :cascade
 end

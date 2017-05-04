@@ -1,0 +1,2 @@
+class Permlink < ApplicationRecord
+end
