@@ -40,9 +40,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
-    annotate (2.6.5)
-      activerecord (>= 2.3.0)
-      rake (>= 0.8.7)
+    annotate (2.7.1)
+      activerecord (>= 3.2, < 6.0)
+      rake (>= 10.4, < 12.0)
     arel (8.0.0)
     ast (2.3.0)
     bindex (0.5.0)
@@ -135,7 +135,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.2.2)
       rake
-    rake (12.0.0)
+    rake (11.3.0)
     rb-fsevent (0.9.8)
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
@@ -215,6 +215,7 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
   webpacker
+
 
 RUBY VERSION
    ruby 2.4.1p111
