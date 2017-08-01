@@ -12,6 +12,7 @@ import ReactDOM from 'react-dom';
 import 'whatwg-fetch';
 import 'babel-polyfill';
 import groupBy from 'lodash.groupby';
+import '../application-styles.sass';
 
 class Main extends React.Component {
   constructor(props) {
