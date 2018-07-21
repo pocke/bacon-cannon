@@ -1,4 +1,4 @@
-%w[18 19 20 21 22 23 24].each do |v|
+%w[18 19 20 21 22 23 24 25 26].each do |v|
   require "parser/ruby#{v}"
 end
 

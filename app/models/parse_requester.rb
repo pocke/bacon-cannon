@@ -1,5 +1,6 @@
 module ParseRequester
   API_URLS = {
+    'ripper_25' => ENV.fetch('RIPPER25_URL'){'https://ripper-api-for-ruby25.herokuapp.com/'},
     'ripper_24' => ENV.fetch('RIPPER24_URL'){'https://ripper-api-for-ruby24.herokuapp.com/'},
     'ripper_23' => ENV.fetch('RIPPER23_URL'){'https://ripper-api-for-ruby23.herokuapp.com/'},
     'ripper_22' => ENV.fetch('RIPPER22_URL'){'https://ripper-api-for-ruby22.herokuapp.com/'},

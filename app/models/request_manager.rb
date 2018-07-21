@@ -1,5 +1,6 @@
 module RequestManager
   Parsers = %w[
+    ripper_25
     ripper_24
     ripper_23
     ripper_22
@@ -7,6 +8,8 @@ module RequestManager
     ripper_20
     ripper_19
 
+    parser_26
+    parser_25
     parser_24
     parser_23
     parser_22

@@ -24,7 +24,7 @@ class Main extends React.Component {
     this.getParmlink = this.getParmlink.bind(this);
 
     const parsers = BaconCannonConstant.Parsers.map(p =>
-      ({name: p, enabled: p.includes('24')})
+      ({name: p, enabled: p.includes('25')})
     );
     const code = BaconCannonConstant.Code || '';
     const asts = BaconCannonConstant.ASTs || [];
