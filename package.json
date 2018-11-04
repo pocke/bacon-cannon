@@ -28,7 +28,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "resolve-url-loader": "^2.1.0",
-    "sass-loader": "^6.0.6",
+    "sass-loader": "^7.1.0",
     "style-loader": "^0.18.2",
     "webpack": "^3.4.1",
     "webpack-manifest-plugin": "^1.2.1",
