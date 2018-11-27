@@ -8,7 +8,7 @@ git_source(:github) do |repo_name|
 end
 
 
-gem 'rails', '~> 5.1.0'
+gem 'rails', '~> 5.2.1'
 gem 'pg'
 gem 'webpacker'
 # Use Puma as the app server
