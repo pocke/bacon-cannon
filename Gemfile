@@ -8,7 +8,7 @@ git_source(:github) do |repo_name|
 end
 
 
-gem 'rails', '~> 5.1.0'
+gem 'rails', '~> 5.1.6.1'
 gem 'pg'
 gem 'webpacker'
 # Use Puma as the app server
@@ -40,7 +40,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 
-  gem 'rubocop', require: false
+  gem 'rubocop', '>= 0.49.0', require: false
   gem 'meowcop', require: false
 
   gem 'annotate'
@@ -48,3 +48,7 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'ffi', '>= 1.9.24'
+gem 'loofah', '>= 2.2.1'
+gem 'nokogiri', '>= 1.8.5'
+gem 'rails-html-sanitizer', '>= 1.0.4'
