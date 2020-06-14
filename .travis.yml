@@ -1,6 +1,6 @@
 language: ruby
 dist: trusty
-rvm: 2.4.1
+rvm: 2.5.3
 sudo: false
 cache:
   bundler: true
